@@ -48,9 +48,5 @@ class Script(scripts.Script):
             if(low[0] in p.prompt):
                 p.prompt = p.prompt.replace(low[0], low[1])
                 p.negative_prompt += ' , ' + low[2]
-        proc = process_images(p)
-        p.do_not_save_samples = True
+        p.do_not_save_samples = False
         f.close()
-        for i in range(len(proc.images)):
-            images.save_image(proc.images[i], p.outpath_samples, "replaced",
-            proc.seed + i, proc.prompt, opts.samples_format, info= proc.info, p=p)
