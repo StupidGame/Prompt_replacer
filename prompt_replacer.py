@@ -47,7 +47,7 @@ class Script(scripts.Script):
         for low in reader:
             if(low[0] in p.prompt):
                 p.prompt = p.prompt.replace(low[0], low[1])
-                p.negative_prompt += low[2]
+                p.negative_prompt += ' , ' + low[2]
         proc = process_images(p)
         p.do_not_save_samples = True
         f.close()
