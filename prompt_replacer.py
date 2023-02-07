@@ -9,15 +9,14 @@ from modules.processing import Processed
 from modules.shared import opts, cmd_opts, state
 
 def apply_prompt(prompt, replace_prompt, negative_prompt):
-    f = open('replacer.csv', 'r')
-    
-    if(os.path.isfile('replacer.csv')):
-        f = open('replacer.csv', 'a', newline="")
+    if(os.path.isfile('./replacer.csv')):
+        f = open('./replacer.csv', 'a', newline="")
     else:
-        f = open('replacer.csv', 'w', newline="")
+        f = open('./replacer.csv', 'w', newline="")
     writer = csv.writer(f)
     writer.writerow([prompt, replace_prompt, negative_prompt])
     f.close()
+
 
 def read_csv(filename):
     f = open(filename, 'r')
@@ -27,13 +26,20 @@ def read_csv(filename):
 
 
 class Script(scripts.Script):  
+    if(not os.path.isfile('./replacer.csv')):
+        f = open('./replacer.csv', 'w', newline="")
+        writer = csv.writer(f)
+        writer.writerow(["brank", "brank", ""])
+        f.close()
+
 
 # The title of the script. This is what will be displayed in the dropdown menu.
     def title(self):
         return "prompt replacer"
 
     def ui(self, is_img2img):
-        csvframe = gr.DataFrame(value=read_csv('replacer.csv'), max_rows=3, wrap=True)
+        csvdata = read_csv('./replacer.csv')
+        csvframe = gr.DataFrame(value=csvdata, max_rows=3, wrap=True)
         base_text = gr.Textbox(label="base prompt",placeholder="type base prompt")
         replace_text = gr.Textbox(label="replace prompt",placeholder="type replace prompt")
         negative_text = gr.Textbox(label="replace negative prompt",placeholder="type replace negative prompt")
