@@ -49,8 +49,7 @@ class Script(scripts.Script):
         reader = csv.reader(f)
         for low in reader:
             if(low[0] in p.prompt):
-                print("aaa")
                 p.prompt = p.prompt.replace(low[0], low[1])
-                p.negative_prompt += ' , ' + low[2]
+                p.negative_prompt = p.negative_prompt + ' , ' + low[2]
         p.do_not_save_samples = False
         f.close()
